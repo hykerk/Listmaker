@@ -50,4 +50,5 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
     implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation "androidx.cardview:cardview:1.0.0"
 }

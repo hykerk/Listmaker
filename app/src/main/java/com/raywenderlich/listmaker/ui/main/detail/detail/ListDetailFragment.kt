@@ -7,8 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.raywenderlich.listmaker.MainActivity
 import com.raywenderlich.listmaker.R
+import com.raywenderlich.listmaker.TaskList
 import com.raywenderlich.listmaker.databinding.ListDetailFragmentBinding
+import com.raywenderlich.listmaker.ui.main.MainViewModel
+import com.raywenderlich.listmaker.ui.main.MainViewModelFactory
+import androidx.preference.PreferenceManager
 
 class ListDetailFragment : Fragment() {
 
@@ -18,11 +23,15 @@ class ListDetailFragment : Fragment() {
         fun newInstance() = ListDetailFragment()
     }
 
-    private lateinit var viewModel: ListDetailViewModel
+    private lateinit var viewModel: MainViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(ListDetailViewModel::class.java)
+        viewModel = ViewModelProvider(
+            requireActivity(),
+            MainViewModelFactory(PreferenceManager.getDefaultSharedPreferences(requireActivity()))
+        )
+            .get(MainViewModel::class.java)
         val recyclerAdapter = ListItemsRecyclerViewAdapter(viewModel.list)
         binding.listItemsRecyclerview.adapter = recyclerAdapter
         binding.listItemsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
@@ -30,14 +39,20 @@ class ListDetailFragment : Fragment() {
         viewModel.onTaskAdded = {
             recyclerAdapter.notifyDataSetChanged()
         }
-    }
+        val list: TaskList? =
+            arguments?.getParcelable(MainActivity.INTENT_LIST_KEY)
+        if (list != null) {
+            viewModel.list = list
+            requireActivity().title = list.name
+        }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = ListDetailFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+        override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View {
+            binding = ListDetailFragmentBinding.inflate(inflater, container, false)
+            return binding.root
+        }
 
+    }
 }

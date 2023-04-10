@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import androidx.preference.PreferenceGroup.OnExpandButtonClickListener
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.raywenderlich.listmaker.R
 import com.raywenderlich.listmaker.TaskList
 import com.raywenderlich.listmaker.databinding.FragmentMainBinding
 
-class MainFragment(val clickListener: MainFragmentInteractionListener) : Fragment(), ListSelectionRecyclerViewAdapter.ListSelectionRecyclerViewClickListener {
+class MainFragment : Fragment(), ListSelectionRecyclerViewAdapter.ListSelectionRecyclerViewClickListener {
+    lateinit var clickListener: MainFragmentInteractionListener
 
     interface MainFragmentInteractionListener{
         fun listItemTapped(list: TaskList)
@@ -22,7 +22,7 @@ class MainFragment(val clickListener: MainFragmentInteractionListener) : Fragmen
     private lateinit var binding: FragmentMainBinding
 
     companion object {
-        fun newInstance(clickListener: MainFragmentInteractionListener) = MainFragment(clickListener)
+        fun newInstance() = MainFragment()
     }
 
     private lateinit var viewModel: MainViewModel

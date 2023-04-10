@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.raywenderlich.listmaker.MainActivity
 import com.raywenderlich.listmaker.R
@@ -13,7 +14,7 @@ import com.raywenderlich.listmaker.TaskList
 import com.raywenderlich.listmaker.databinding.ListDetailFragmentBinding
 import com.raywenderlich.listmaker.ui.main.MainViewModel
 import com.raywenderlich.listmaker.ui.main.MainViewModelFactory
-import androidx.preference.PreferenceManager
+import com.raywenderlich.listmaker.ui.main.detail.detail.ListItemsRecyclerViewAdapter
 
 class ListDetailFragment : Fragment() {
 
@@ -24,6 +25,15 @@ class ListDetailFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = ListDetailFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -45,14 +55,5 @@ class ListDetailFragment : Fragment() {
             viewModel.list = list
             requireActivity().title = list.name
         }
-
-        override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View {
-            binding = ListDetailFragmentBinding.inflate(inflater, container, false)
-            return binding.root
-        }
-
     }
 }
